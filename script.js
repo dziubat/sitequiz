@@ -1,44 +1,52 @@
-//arquivo para início da Reunião 7
-
-const caixaPrincipal = document.querySelector(".caixa-principal");
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
-const textoResultado = document.querySelector(".texto-resultado");
+const caixaPrincipal = document.querySelector('.caixa-principal');
+const caixaPerguntas = document.querySelector('.caixa-perguntas');
+const caixaAlternativas = document.querySelector('.caixa-alternativas');
+const caixaResultado = document.querySelector('.caixa-resultado');
+const textoResultado = document.querySelector('.texto-resultado');
 
 const perguntas = [
     {
-        enunciado: "Pergunta 1",
+        enunciado: "Assim que saiu da escola, você se depara com uma nova tecnologia: um chat que consegue responder a todas as dúvidas que uma pessoa pode ter. Além disso, o chat também gera imagens e áudios hiper-realistas. Qual o seu primeiro pensamento?",
         alternativas: [
-            "Alternativa 1", 
-            "Alternativa 2"
+            {
+                texto: "Isso é assustador!",
+                afirmacao: [
+                    "No início, ficou com medo do que essa tecnologia pode fazer.",
+                    "Achou assustador pensar na velocidade com que a tecnologia está avançando."
+                ]
+            },
+            {
+                texto: "Isso é maravilhoso!",
+                afirmacao: [
+                    "Quis saber como usar IA no seu dia a dia.",
+                    "Pensou que IA pode ajudar em tarefas da sua vida."
+                ]
+            }
         ]
-    },
-    {
-        enunciado: "Pergunta 2",
-        alternativas: [
-            "Alternativa 1", 
-            "Alternativa 2"
-        ]
-    } 
+    }
 ];
 
 let atual = 0;
-let perguntaAtual;
 
-function mostraPergunta(){
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntas[atual].enunciado;
-    caixaAlternativas.textContent = "";
-    mostraAlternativas();
+function mostraPergunta() {
+    const perguntaAtual = perguntas[atual];
+    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    mostraAlternativas(perguntaAtual.alternativas);
 }
 
-function mostraAlternativas(){
-    for (const alternativa of perguntaAtual.alternativas){
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa;
-        caixaAlternativas.appendChild(botaoAlternativas);
-    }
+function mostraAlternativas(alternativas) {
+    caixaAlternativas.innerHTML = ''; // Limpa as alternativas anteriores
+    alternativas.forEach(alternativa => {
+        const botaoAlternativa = document.createElement('button');
+        botaoAlternativa.textContent = alternativa.texto;
+        botaoAlternativa.onclick = () => mostraResultado(alternativa.afirmacao.join(" "));
+        caixaAlternativas.appendChild(botaoAlternativa);
+    });
 }
 
+function mostraResultado(afirmacao) {
+    textoResultado.textContent = afirmacao;
+}
+
+// Inicializa a primeira pergunta
 mostraPergunta();
